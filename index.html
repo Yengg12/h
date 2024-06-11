@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            vertical-align: top;
+            white-space: pre-wrap;
+            font-family: monospace;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr><td>
+        String name[]={"Pizza","Burger","Pasta"};
+        String type[][]={{"Pizza Ayam","Pizza Daging"},{"Burger Ayam","Burger Daging"},{"Pasta Carbonara","Carbonara putih"}};
+        double price[] = {5.00,5.00,5.00};
+        double suduPrice = 8.00;
+        double garpuPrice = 8.00;
+    </td></tr>
+<tr>
+    <td>
+        public void add() {
+            try {
+                String name = tf1.getText();
+                String food = (String) cb1.getSelectedItem();
+                 String type = (String) cb2.getSelectedItem();
+                
+                int quantity = Integer.parseInt(tf2.getText());
+                String gender = rb1.isSelected() ? "Male" : "Female";
+                
+                String cutlery = "";
+                double cutleryPrice = 0.0;
+    
+                if(ch1.isSelected()){
+                    cutlery +="Sudu";
+                    cutleryPrice += suduPrice;
+                }
+                
+                if (ch2.isSelected()){
+                    cutlery+="garpu";
+                    cutleryPrice= garpuPrice;
+                }
+                
+    
+                int cbfood = cb1.getSelectedIndex();
+                double itemPrice = price[cbfood];
+                
+                double totalPrice = itemPrice * quantity + cutleryPrice;
+                double finalPrice = totalPrice;
+    
+                if (totalPrice > 20.00) {
+                    finalPrice = totalPrice * 0.95; 
+                }
+    
+                String add = "INSERT INTO user_info(name, food, food_type, gender, cutlery, total_price, final_price) VALUES(?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps = conn.prepareStatement(add);
+                ps.setString(1, name);
+                ps.setString(2, food);
+                ps.setString(3, type);
+                ps.setString(4, gender);
+                ps.setString(5, cutlery);
+                ps.setDouble(6, totalPrice);
+                ps.setDouble(7, finalPrice);
+    
+                ps.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    </td>
+</tr>
+</table>
+</body>
+</html>
+
